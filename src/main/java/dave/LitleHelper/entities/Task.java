@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,8 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Filter;
 
 import dave.LitleHelper.enums.TaskState;
@@ -28,8 +27,8 @@ public class Task extends AbstractEntity {
 	@Transient
 	private TaskEditPane editPane;
 
-	@OneToMany(mappedBy = "task", orphanRemoval = true)
-	@Cascade({ CascadeType.MERGE })
+	@OneToMany(mappedBy = "task", cascade = { CascadeType.ALL })
+	// @Cascade({ CascadeType.MERGE })
 	@Filter(name = "date", condition = "date = :date")
 	private List<TimeInterval> times;
 
@@ -47,8 +46,8 @@ public class Task extends AbstractEntity {
 	@Lob
 	private String notes;
 
-	@OneToMany(mappedBy = "task", orphanRemoval = true)
-	@Cascade({ CascadeType.MERGE })
+	@OneToMany(mappedBy = "task", cascade = { CascadeType.ALL })
+	// @Cascade({ CascadeType.MERGE })
 	private List<AffectedFile> files;
 
 	@Column(name = "state")
@@ -142,11 +141,6 @@ public class Task extends AbstractEntity {
 	public Task update() {
 		editPane.update();
 		return this;
-	}
-
-	@Override
-	public void detach() {
-		throw new IllegalStateException("You can not detach this entity [" + Task.class.getName() + "].");
 	}
 
 	@Override

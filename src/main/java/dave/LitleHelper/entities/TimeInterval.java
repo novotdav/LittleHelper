@@ -60,11 +60,6 @@ public class TimeInterval extends AbstractEntity {
 		return duration;
 	}
 
-	@Override
-	public void detach() {
-		task = null;
-	}
-
 	public LocalTime getFrom() {
 		return from;
 	}

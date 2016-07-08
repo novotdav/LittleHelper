@@ -66,4 +66,8 @@ public class TaskDAO {
 
 		return tasks;
 	}
+
+	public List<LocalDate> findAllDays() {
+		return em.createQuery("select DISTINCT(t.date) from TimeInterval t", LocalDate.class).getResultList();
+	}
 }

@@ -16,13 +16,11 @@ public class Main {
 		// Persistence.createEntityManagerFactory("littleHelper");
 		// EntityManager em = factory.createEntityManager();
 		//
-		// Task t = new Task();
-		// t.setDescription("desc7");
+		// LocalDate yesterday = LocalDate.parse("2016-07-06");
 		//
-		// em.getTransaction().begin();
-		// em.persist(t);
-		// em.getTransaction().commit();
-		// em.close();
+		// TaskDAO dao = new TaskDAO();
+		// List<Task> list1 = dao.findFilter(LocalDate.now());
+		// List<Task> list2 = dao.findFilter(yesterday);
 		//
 		// System.out.println("Done");
 		// System.exit(0);

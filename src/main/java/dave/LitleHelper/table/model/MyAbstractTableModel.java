@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-public abstract class MyAbstractTableModel<T> extends AbstractTableModel {
+import dave.LitleHelper.entities.AbstractEntity;
+
+public abstract class MyAbstractTableModel<T extends AbstractEntity> extends AbstractTableModel {
 
 	protected List<T> data;
 
@@ -34,7 +36,9 @@ public abstract class MyAbstractTableModel<T> extends AbstractTableModel {
 	public void removeRows(int[] rows) {
 		List<T> objectsToRemove = new ArrayList<>();
 		for (int row : rows) {
-			objectsToRemove.add(data.get(row));
+			T item = data.get(row);
+			item.detach();
+			objectsToRemove.add(item);
 		}
 
 		data.removeAll(objectsToRemove);

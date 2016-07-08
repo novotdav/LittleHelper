@@ -27,6 +27,11 @@ public class AffectedFile extends AbstractEntity {
 		this.task = task;
 	}
 
+	@Override
+	public void detach() {
+		task = null;
+	}
+
 	public Task getTaskId() {
 		return task;
 	}

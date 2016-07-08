@@ -12,8 +12,12 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+
 @Entity
 @Table(name = "time_interval")
+@FilterDef(name = "date", parameters = @ParamDef(name = "date", type = "java.time.LocalDate"))
 public class TimeInterval extends AbstractEntity {
 
 	@Column
@@ -54,6 +58,11 @@ public class TimeInterval extends AbstractEntity {
 			countDuration();
 		}
 		return duration;
+	}
+
+	@Override
+	public void detach() {
+		task = null;
 	}
 
 	public LocalTime getFrom() {

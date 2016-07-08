@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Filter;
 
 import dave.LitleHelper.enums.TaskState;
 import dave.LitleHelper.panel.TaskEditPane;
@@ -27,8 +28,9 @@ public class Task extends AbstractEntity {
 	@Transient
 	private TaskEditPane editPane;
 
-	@OneToMany(mappedBy = "task")
+	@OneToMany(mappedBy = "task", orphanRemoval = true)
 	@Cascade({ CascadeType.MERGE })
+	@Filter(name = "date", condition = "date = :date")
 	private List<TimeInterval> times;
 
 	@Column(name = "hp")
@@ -45,7 +47,7 @@ public class Task extends AbstractEntity {
 	@Lob
 	private String notes;
 
-	@OneToMany(mappedBy = "task")
+	@OneToMany(mappedBy = "task", orphanRemoval = true)
 	@Cascade({ CascadeType.MERGE })
 	private List<AffectedFile> files;
 
@@ -56,6 +58,7 @@ public class Task extends AbstractEntity {
 	public Task() {
 		times = new ArrayList<>();
 		files = new ArrayList<>();
+		state = TaskState.IN_PROGRESS;
 	}
 
 	public TaskEditPane createEditPane(LocalDate date) {
@@ -139,6 +142,11 @@ public class Task extends AbstractEntity {
 	public Task update() {
 		editPane.update();
 		return this;
+	}
+
+	@Override
+	public void detach() {
+		throw new IllegalStateException("You can not detach this entity [" + Task.class.getName() + "].");
 	}
 
 	@Override

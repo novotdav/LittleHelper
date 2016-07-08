@@ -31,6 +31,11 @@ public class Workspace extends AbstractEntity {
 		this.type = type;
 	}
 
+	@Override
+	public void detach() {
+		throw new IllegalStateException("You can not detach this entity [" + Workspace.class.getName() + "].");
+	}
+
 	public String getName() {
 		return name;
 	}

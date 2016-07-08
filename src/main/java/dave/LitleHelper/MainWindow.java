@@ -6,6 +6,11 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -29,12 +34,28 @@ public class MainWindow extends JFrame {
 	private JPanel centerPane;
 	private EntityManager em;
 	private Task lastAddedTask;
+	TaskDAO taskDao;
+	JComboBox<Task> taskSelector;
 
 	public MainWindow() {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("littleHelper");
+		taskDao = new TaskDAO();
 		em = factory.createEntityManager();
 
 		initComponents();
+
+		addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try {
+					DriverManager.getConnection("jdbc:derby:;shutdown=true");
+				} catch (SQLException e1) {
+					// sql error is expected -> do nothing
+				}
+			}
+
+		});
 	}
 
 	private void initComponents() {
@@ -52,7 +73,8 @@ public class MainWindow extends JFrame {
 		DatePicker dp = new DatePicker(dps);
 		top.add(dp);
 
-		JComboBox<Task> taskSelector = new JComboBox<>();
+		taskSelector = new JComboBox<>();
+
 		taskSelector.addItemListener(new ItemListener() {
 
 			@Override
@@ -89,6 +111,7 @@ public class MainWindow extends JFrame {
 			// HP or Description was changed
 			boolean changed = !beforeUpdate.equals(afterUpdate);
 
+			// TODO move to DAO
 			em.getTransaction().begin();
 			// em.persist(t);
 			em.merge(t);
@@ -117,15 +140,11 @@ public class MainWindow extends JFrame {
 
 		centerPane = new JPanel(new CardLayout());
 		// TODO load from DB
+		loadTasks(dp.getDate());
 
-		TaskDAO dao = new TaskDAO();
-		List<Task> list = dao.findAll(dp.getDate());
-		list.forEach(t -> {
-			// System.out.println("times: " + t.getTimes().size());
-
-			taskSelector.addItem(t);
-			centerPane.add(t.createEditPane(dp.getDate()), t.toString());
-			System.out.println("id: " + t.getId());
+		dp.addDateChangeListener(event -> {
+			System.out.println(dp.getDate());
+			loadTasks(dp.getDate());
 		});
 
 		// Task t = em.find(Task.class, 2101L);
@@ -133,6 +152,20 @@ public class MainWindow extends JFrame {
 		// centerPane.add(t.createEditPane(dp.getDate()), t.toString());
 
 		add(centerPane, BorderLayout.CENTER);
+	}
+
+	private void loadTasks(LocalDate date) {
+		List<Task> list = taskDao.findFilter(date);
+		taskSelector.removeAllItems();
+		centerPane.removeAll();
+
+		list.forEach(task -> {
+			// System.out.println("times: " + t.getTimes().size());
+
+			taskSelector.addItem(task);
+			centerPane.add(task.createEditPane(date), task.toString());
+			System.out.println("id: " + task.getId());
+		});
 	}
 
 }

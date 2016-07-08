@@ -19,4 +19,6 @@ public abstract class AbstractEntity {
 	public void setId(long id) {
 		this.id = id;
 	}
+
+	abstract public void detach();
 }

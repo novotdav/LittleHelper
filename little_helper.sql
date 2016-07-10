@@ -7,7 +7,7 @@ CREATE TABLE files (
 
 CREATE TABLE tasks (
   id int not null PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-  hp varchar(16),
+  hp varchar(16) unique,
   description varchar(256),
   workspace_id int,
   notes clob,

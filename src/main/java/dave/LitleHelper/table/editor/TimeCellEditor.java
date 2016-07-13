@@ -7,15 +7,15 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
-import com.github.lgooddatepicker.optionalusertools.TimeChangeListener;
-import com.github.lgooddatepicker.timepicker.TimePicker;
-import com.github.lgooddatepicker.timepicker.TimePickerSettings;
-import com.github.lgooddatepicker.timepicker.TimePickerSettings.TimeIncrement;
-import com.github.lgooddatepicker.zinternaltools.TimeChangeEvent;
+import com.github.lgooddatepicker.components.TimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
+import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
 public class TimeCellEditor extends AbstractCellEditor implements TableCellEditor {
 
-	TimePicker picker;
+	private TimePicker picker;
+
+	private int minimumRowHeightInPixels;
 
 	@Override
 	public Object getCellEditorValue() {
@@ -32,14 +32,17 @@ public class TimeCellEditor extends AbstractCellEditor implements TableCellEdito
 		settings.generatePotentialMenuTimes(TimeIncrement.FifteenMinutes, startTime, null);
 		picker = new TimePicker(settings);
 		picker.setTime((LocalTime) value);
-		picker.addTimeChangeListener(new TimeChangeListener() {
 
-			@Override
-			public void timeChanged(TimeChangeEvent event) {
-				stopCellEditing();
-			}
-		});
+		minimumRowHeightInPixels = (picker.getPreferredSize().height + 1);
+		zAdjustTableRowHeightIfNeeded(table);
+
 		return picker;
+	}
+
+	private void zAdjustTableRowHeightIfNeeded(JTable table) {
+		if ((table.getRowHeight() < minimumRowHeightInPixels)) {
+			table.setRowHeight(minimumRowHeightInPixels);
+		}
 	}
 
 }

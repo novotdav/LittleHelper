@@ -61,6 +61,7 @@ public class TaskEditPane extends JScrollPane {
 		timesModel.setData(task.getTimes());
 		JTable timesTable = new JTable(timesModel);
 		timesTable.setDefaultEditor(LocalTime.class, new TimeCellEditor());
+		// timesTable.setDefaultEditor(LocalTime.class, new TimeTableEditor());
 		timesTable.addKeyListener(new DeleteTableRow(timesTable, timesModel));
 		timesTable.setPreferredScrollableViewportSize(new Dimension(300, 100));
 		JScrollPane timesScroll = new JScrollPane(timesTable);

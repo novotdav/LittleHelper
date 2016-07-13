@@ -1,10 +1,14 @@
 package dave.LitleHelper.panel;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -33,11 +37,11 @@ public class OverViewPane extends JPanel {
 		MyJTreeModel model = new MyJTreeModel();
 		model.generateStructure(dao.findAllDays());
 
-		JTree jt = new JTree(model);
+		final JTree jt = new JTree(model);
 		// TODO consider renderer
 		// jt.setCellRenderer(new MyTreeCellRenderer());
 		jt.setRootVisible(true);
-		jt.setSelectionModel(null);
+		// jt.setSelectionModel(null);
 		jt.setRowHeight(0);
 
 		JScrollPane jsp = new JScrollPane(jt);
@@ -58,7 +62,7 @@ public class OverViewPane extends JPanel {
 							LocalDate date = dn.getDate();
 							List<Integer> indices = new ArrayList<>();
 
-							List<Task> tasks = dao.findFilter(date);
+							List<Task> tasks = dao.findByDate(date);
 							int lastIndex = 0;
 
 							dn.removeAllChildren();
@@ -93,6 +97,24 @@ public class OverViewPane extends JPanel {
 						}
 					}
 				});
+			}
+		});
+
+		jt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+					AbstractNode node = (AbstractNode) jt.getSelectionPath().getLastPathComponent();
+
+					if (node instanceof TaskNode) {
+						LocalDate date = ((DateNode) node.getParent()).getDate();
+						String dateString = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+						Task task = ((TaskNode) node).getTask();
+						TaskEditPane editPane = task.createEditPane(date);
+						JOptionPane.showMessageDialog(null, editPane, dateString + ": " + task,
+								JOptionPane.PLAIN_MESSAGE);
+					}
+				}
 			}
 		});
 

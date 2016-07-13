@@ -16,8 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.github.lgooddatepicker.datepicker.DatePicker;
-import com.github.lgooddatepicker.datepicker.DatePickerSettings;
+import com.github.lgooddatepicker.components.DatePicker;
 
 import dave.LitleHelper.dao.TaskDAO;
 import dave.LitleHelper.entities.Task;
@@ -41,9 +40,8 @@ public class RecordPane extends JPanel {
 		setLayout(new BorderLayout());
 
 		JPanel top = new JPanel();
-		DatePickerSettings dps = new DatePickerSettings();
-		dps.setInitialDateToToday();
-		DatePicker dp = new DatePicker(dps);
+		DatePicker dp = new DatePicker();
+		dp.setDateToToday();
 		top.add(dp);
 
 		taskSelector = new JComboBox<>();
@@ -128,7 +126,7 @@ public class RecordPane extends JPanel {
 	}
 
 	private void loadTasks(LocalDate date) {
-		List<Task> list = taskDao.findFilter(date);
+		List<Task> list = taskDao.findAllByDate(date);
 		taskSelector.removeAllItems();
 		centerPane.removeAll();
 

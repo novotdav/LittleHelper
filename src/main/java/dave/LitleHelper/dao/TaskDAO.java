@@ -32,7 +32,16 @@ public class TaskDAO {
 		return tasks;
 	}
 
-	public List<Task> findFilter(LocalDate date) {
+	public List<Task> findByDate(LocalDate date) {
+		Session session = em.unwrap(Session.class);
+
+		// to remove previous results from cache
+		session.clear();
+		return em.createQuery("select t from Task t JOIN FETCH t.times i where i.date = :date", Task.class)
+				.setParameter("date", date).getResultList();
+	}
+
+	public List<Task> findAllByDate(LocalDate date) {
 		// CriteriaQuery<Task> criteria = builder.createQuery(Task.class);
 		// Root<Task> root = criteria.from(Task.class);
 		// Join<Task, TimeInterval> times = root.join("times");

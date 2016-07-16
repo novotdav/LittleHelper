@@ -11,8 +11,13 @@ import javax.swing.JTabbedPane;
 
 import dave.LitleHelper.panel.OverViewPane;
 import dave.LitleHelper.panel.RecordPane;
+import dave.LitleHelper.panel.SettingsPane;
 
 public class MainWindow extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3439004617126119913L;
 	private static final Dimension WINDOW_SIZE = new Dimension(1100, 720);
 
 	public MainWindow() {
@@ -44,6 +49,7 @@ public class MainWindow extends JFrame {
 
 		tabPane.add("Zaznam", new RecordPane());
 		tabPane.add("Prehled", new OverViewPane());
+		tabPane.addTab("Nastaveni", new SettingsPane());
 
 		add(tabPane);
 	}

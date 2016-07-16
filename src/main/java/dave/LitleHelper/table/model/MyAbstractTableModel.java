@@ -12,6 +12,10 @@ import dave.LitleHelper.entities.AbstractEntity;
 
 public abstract class MyAbstractTableModel<T extends AbstractEntity> extends AbstractTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4059929262977267329L;
 	protected List<T> data;
 
 	@Override
@@ -57,6 +61,10 @@ public abstract class MyAbstractTableModel<T extends AbstractEntity> extends Abs
 
 	public List<T> getData() {
 		return data;
+	}
+
+	public AbstractEntity getEntity(int index) {
+		return data.get(index);
 	}
 
 }

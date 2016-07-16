@@ -1,6 +1,5 @@
 package dave.LitleHelper.panel;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -14,16 +13,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 
 import dave.LitleHelper.dialog.AddFilesDialog;
 import dave.LitleHelper.entities.AffectedFile;
 import dave.LitleHelper.entities.Task;
 import dave.LitleHelper.entities.TimeInterval;
 import dave.LitleHelper.listener.DeleteTableRow;
+import dave.LitleHelper.table.FilesTable;
 import dave.LitleHelper.table.editor.TimeCellEditor;
-import dave.LitleHelper.table.model.FileTableModel;
 import dave.LitleHelper.table.model.MyAbstractTableModel;
 import dave.LitleHelper.table.model.TimeIntervalTableModel;
 
@@ -44,16 +41,18 @@ public class TaskEditPane extends JScrollPane {
 		initComponents();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initComponents() {
 		JPanel masterPane = new JPanel();
 		masterPane.setLayout(new BoxLayout(masterPane, BoxLayout.Y_AXIS));
 
-		JPanel controlPane = new JPanel();
-		controlPane.add(new JButton("Uzavrit"));
-		controlPane.add(new JButton("Commit"));
-		controlPane.add(new JButton("Otevrit"));
-
-		masterPane.add(controlPane);
+		// TODO add state features
+		// JPanel controlPane = new JPanel();
+		// controlPane.add(new JButton("Uzavrit"));
+		// controlPane.add(new JButton("Commit"));
+		// controlPane.add(new JButton("Otevrit"));
+		//
+		// masterPane.add(controlPane);
 
 		JPanel timesPane = new JPanel();
 		timesPane.add(new JLabel("Casy"));
@@ -61,7 +60,6 @@ public class TaskEditPane extends JScrollPane {
 		timesModel.setData(task.getTimes());
 		JTable timesTable = new JTable(timesModel);
 		timesTable.setDefaultEditor(LocalTime.class, new TimeCellEditor());
-		// timesTable.setDefaultEditor(LocalTime.class, new TimeTableEditor());
 		timesTable.addKeyListener(new DeleteTableRow(timesTable, timesModel));
 		timesTable.setPreferredScrollableViewportSize(new Dimension(300, 100));
 		JScrollPane timesScroll = new JScrollPane(timesTable);
@@ -95,26 +93,10 @@ public class TaskEditPane extends JScrollPane {
 
 		JPanel filesPane = new JPanel();
 		filesPane.add(new JLabel("Soubory"));
-		filesModel = new FileTableModel();
-		filesModel.setData(task.getFiles());
-		// JTable filesTable = new JTable(filesModel);
-		JTable filesTable = new JTable() {
-			@Override
-			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-				Component component = super.prepareRenderer(renderer, row, column);
-				int rendererWidth = component.getPreferredSize().width;
-				TableColumn tableColumn = getColumnModel().getColumn(column);
-				tableColumn.setPreferredWidth(
-						Math.max(rendererWidth + getIntercellSpacing().width, tableColumn.getPreferredWidth()));
-				return component;
-			}
-		};
-		filesTable.setPreferredScrollableViewportSize(new Dimension(600, 100));
-		filesTable.setModel(filesModel);
-		filesTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		filesTable.addKeyListener(new DeleteTableRow(filesTable, filesModel));
-		JScrollPane filesScroll = new JScrollPane(filesTable);
-		filesPane.add(filesScroll);
+
+		FilesTable filesTable = new FilesTable(task, date);
+		filesModel = (MyAbstractTableModel<AffectedFile>) filesTable.getModel();
+		filesPane.add(filesTable);
 
 		JButton addFilesButton = new JButton("Pridej soubory");
 		addFilesButton.addActionListener(e -> {

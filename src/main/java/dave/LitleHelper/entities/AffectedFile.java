@@ -53,6 +53,6 @@ public class AffectedFile extends AbstractEntity {
 
 	@Override
 	public String toString() {
-		return "AffectedFile [taskId=" + task.getId() + ", name=" + name + ", path=" + path + "]";
+		return name + " - " + path;
 	}
 }

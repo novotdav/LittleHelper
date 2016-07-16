@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,6 +26,10 @@ import dave.LitleHelper.tree.TaskNode;
 
 public class OverViewPane extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3930054696368288777L;
 	private TaskDAO dao = new TaskDAO();
 
 	public OverViewPane() {
@@ -35,13 +40,20 @@ public class OverViewPane extends JPanel {
 		setLayout(new BorderLayout());
 
 		MyJTreeModel model = new MyJTreeModel();
-		model.generateStructure(dao.findAllDays());
+
+		JButton refresh_button = new JButton("Refresh");
+		refresh_button.addActionListener(event -> {
+			model.generateStructure(dao.findAllDays());
+		});
+
+		JPanel topPanel = new JPanel();
+		topPanel.add(refresh_button);
+		add(topPanel, BorderLayout.NORTH);
 
 		final JTree jt = new JTree(model);
 		// TODO consider renderer
 		// jt.setCellRenderer(new MyTreeCellRenderer());
 		jt.setRootVisible(true);
-		// jt.setSelectionModel(null);
 		jt.setRowHeight(0);
 
 		JScrollPane jsp = new JScrollPane(jt);
@@ -110,6 +122,7 @@ public class OverViewPane extends JPanel {
 						LocalDate date = ((DateNode) node.getParent()).getDate();
 						String dateString = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 						Task task = ((TaskNode) node).getTask();
+						// TODO create viewPane instead of editPane
 						TaskEditPane editPane = task.createEditPane(date);
 						JOptionPane.showMessageDialog(null, editPane, dateString + ": " + task,
 								JOptionPane.PLAIN_MESSAGE);

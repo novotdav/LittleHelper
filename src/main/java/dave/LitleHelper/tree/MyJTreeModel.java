@@ -9,6 +9,10 @@ import dave.LitleHelper.utils.DateUtils;
 
 public class MyJTreeModel extends DefaultTreeModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1312678134731289438L;
 	private AbstractNode root;
 
 	public MyJTreeModel() {
@@ -30,7 +34,9 @@ public class MyJTreeModel extends DefaultTreeModel {
 	}
 
 	public void generateStructure(List<LocalDate> dates) {
+		root.removeAllChildren();
 		dates.forEach(this::addDay);
+		fireTreeStructureChanged(this, null, null, null);
 	}
 
 	public void addDay(LocalDate date) {

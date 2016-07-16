@@ -11,6 +11,8 @@ import com.github.lgooddatepicker.components.TimePicker;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
+import dave.LitleHelper.Time15MinutesVeto;
+
 public class TimeCellEditor extends AbstractCellEditor implements TableCellEditor {
 
 	private TimePicker picker;
@@ -30,8 +32,11 @@ public class TimeCellEditor extends AbstractCellEditor implements TableCellEdito
 			startTime = LocalTime.of(7, 00);
 		}
 		settings.generatePotentialMenuTimes(TimeIncrement.FifteenMinutes, startTime, null);
+
 		picker = new TimePicker(settings);
 		picker.setTime((LocalTime) value);
+
+		settings.setVetoPolicy(new Time15MinutesVeto());
 
 		minimumRowHeightInPixels = (picker.getPreferredSize().height + 1);
 		zAdjustTableRowHeightIfNeeded(table);

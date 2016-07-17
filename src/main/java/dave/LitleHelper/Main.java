@@ -40,6 +40,7 @@ public class Main {
 			public void uncaughtException(Thread t, Throwable e) {
 				LOGGER.log(Level.SEVERE, e.getMessage(), e);
 				JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				System.exit(1);
 			}
 		});
 
@@ -50,7 +51,10 @@ public class Main {
 			public void run() {
 				Thread.currentThread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 					public void uncaughtException(Thread t, Throwable e) {
-						LOGGER.log(Level.SEVERE, e.getMessage(), e);
+						if (!(e instanceof LittleException) || e.getCause() != null) {
+							LOGGER.log(Level.SEVERE, e.getMessage(), e);
+						}
+
 						JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 						if (mainWindow == null || !mainWindow.isVisible()) {
 							System.exit(1);

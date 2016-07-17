@@ -8,9 +8,6 @@ import java.awt.event.ItemListener;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -22,15 +19,16 @@ import dave.LitleHelper.dao.TaskDAO;
 import dave.LitleHelper.entities.Task;
 
 public class RecordPane extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2155308492206387679L;
 	private JPanel centerPane;
-	private EntityManager em;
 	private Task lastAddedTask;
 	TaskDAO taskDao;
 	JComboBox<Task> taskSelector;
 
 	public RecordPane() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("littleHelper");
-		em = factory.createEntityManager();
 		taskDao = new TaskDAO();
 
 		initComponents();
@@ -82,11 +80,7 @@ public class RecordPane extends JPanel {
 			// HP or Description was changed
 			boolean changed = !beforeUpdate.equals(afterUpdate);
 
-			// TODO move to DAO
-			em.getTransaction().begin();
-			// em.persist(t);
-			em.merge(t);
-			em.getTransaction().commit();
+			taskDao.merge(t);
 
 			// if persisted item is new task or task with changed HP or
 			// Description
@@ -110,11 +104,9 @@ public class RecordPane extends JPanel {
 		add(buttons, BorderLayout.SOUTH);
 
 		centerPane = new JPanel(new CardLayout());
-		// TODO load from DB
 		loadTasks(dp.getDate());
 
 		dp.addDateChangeListener(event -> {
-			System.out.println(dp.getDate());
 			loadTasks(dp.getDate());
 		});
 
@@ -131,11 +123,8 @@ public class RecordPane extends JPanel {
 		centerPane.removeAll();
 
 		list.forEach(task -> {
-			// System.out.println("times: " + t.getTimes().size());
-
 			taskSelector.addItem(task);
 			centerPane.add(task.createEditPane(date), task.toString());
-			System.out.println("id: " + task.getId());
 		});
 	}
 }

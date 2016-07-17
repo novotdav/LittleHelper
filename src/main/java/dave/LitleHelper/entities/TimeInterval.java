@@ -15,10 +15,12 @@ import javax.persistence.Table;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 
+import dave.LitleHelper.dao.TimeIntervalDAO;
+
 @Entity
 @Table(name = "time_interval")
 @FilterDef(name = "date", parameters = @ParamDef(name = "date", type = "java.time.LocalDate"))
-public class TimeInterval extends AbstractEntity {
+public class TimeInterval extends AbstractEntity<TimeInterval> {
 
 	@Column
 	private LocalDate date;
@@ -106,5 +108,10 @@ public class TimeInterval extends AbstractEntity {
 	@PrePersist
 	private void countDuration() {
 		duration = (float) MINUTES.between(from, to) / 60;
+	}
+
+	@Override
+	public TimeIntervalDAO getDao() {
+		return new TimeIntervalDAO();
 	}
 }

@@ -11,6 +11,10 @@ import dave.LitleHelper.entities.TimeInterval;
 
 public class TimeIntervalTableModel extends MyAbstractTableModel<TimeInterval> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2504807731649780791L;
 	private LocalDate date;
 	private Task task;
 

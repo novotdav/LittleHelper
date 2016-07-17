@@ -5,14 +5,14 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.TransferHandler;
 
 import dave.LitleHelper.entities.AbstractEntity;
-import dave.LitleHelper.table.model.MyAbstractTableModel;
+import dave.LitleHelper.utils.TableUtils;
 
 public class CopyHandler extends TransferHandler {
 
@@ -28,17 +28,11 @@ public class CopyHandler extends TransferHandler {
 		if ((action == COPY || action == MOVE)) {
 			if (comp instanceof JTable) {
 				JTable table = (JTable) comp;
-				int[] selectedRows = table.getSelectedRows();
-				int[] modelRows = new int[selectedRows.length];
+				List<AbstractEntity<?>> selectedItems = TableUtils.getSelectedItems(table);
 
-				for (int i = 0; i < selectedRows.length; i++) {
-					modelRows[i] = table.convertRowIndexToModel(selectedRows[i]);
-				}
-
-				MyAbstractTableModel<AbstractEntity> model = (MyAbstractTableModel<AbstractEntity>) table.getModel();
 				StringBuilder sb = new StringBuilder();
-				Arrays.stream(modelRows).forEach(row -> {
-					sb.append(model.getEntity(row).toString() + "\n");
+				selectedItems.forEach(item -> {
+					sb.append(item.toString() + "\n");
 				});
 				clip.setContents(new FilesTransferable(sb.toString()), null);
 			}

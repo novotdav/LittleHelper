@@ -4,32 +4,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.criteria.CriteriaBuilder;
-
 import org.hibernate.Session;
 
 import dave.LitleHelper.entities.Task;
+import dave.LitleHelper.exception.LittleException;
+import dave.LitleHelper.exception.LittleException.Err;
 
-public class TaskDAO {
+public class TaskDAO extends AbstractDAO<Task> {
 
-	private EntityManager em;
-	CriteriaBuilder builder;
-
-	public TaskDAO() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("littleHelper");
-		em = factory.createEntityManager();
-		builder = em.getCriteriaBuilder();
-	}
-
-	public List<Task> findAll(LocalDate date) {
-		// CriteriaQuery<Task> cq = builder.createQuery(Task.class);
-
-		List<Task> tasks = em.createQuery("select t from Task t ", Task.class).getResultList();
-
-		return tasks;
+	@Override
+	public List<Task> findAll() {
+		return em.createQuery("select t from Task t ", Task.class).getResultList();
 	}
 
 	public List<Task> findByDate(LocalDate date) {
@@ -42,13 +27,6 @@ public class TaskDAO {
 	}
 
 	public List<Task> findAllByDate(LocalDate date) {
-		// CriteriaQuery<Task> criteria = builder.createQuery(Task.class);
-		// Root<Task> root = criteria.from(Task.class);
-		// Join<Task, TimeInterval> times = root.join("times");
-		// criteria.where(builder.equal(times.get("date"), date));
-		//
-		// return em.createQuery(criteria).getResultList();
-
 		Session session = em.unwrap(Session.class);
 
 		// to remove previous results from cache
@@ -56,22 +34,8 @@ public class TaskDAO {
 		session.enableFilter("date").setParameter("date", date);
 
 		List<Task> tasks = new ArrayList<>();
-
-		// tasks.addAll(
-		// em.createQuery("select t from Task t LEFT OUTER JOIN FETCH t.times i
-		// where i.date = :date", Task.class)
-		// .setParameter("date", date).getResultList());
-
-		// tasks.addAll(em.createQuery("select t from Task t LEFT JOIN FETCH
-		// t.times i WHERE t.state = :state", Task.class)
-		// .setParameter("state", TaskState.IN_PROGRESS).getResultList());
-
 		tasks.addAll(em.createQuery("select t from Task t LEFT JOIN FETCH t.times i", Task.class).getResultList());
-
-		// tasks.addAll(em.createQuery(
-		// "select t from Task t JOIN t.times times WHERE NOT EXISTS (SELECT ti
-		// FROM TimeInterval ti WHERE ti = times)",
-		// Task.class).getResultList());
+		session.disableFilter("date");
 
 		return tasks;
 	}
@@ -79,4 +43,14 @@ public class TaskDAO {
 	public List<LocalDate> findAllDays() {
 		return em.createQuery("select DISTINCT(t.date) from TimeInterval t", LocalDate.class).getResultList();
 	}
+
+	@Override
+	public void remove(Task item) {
+		throw new LittleException(Err.NOT_SUPPORTED);
+		// em.getTransaction().begin();
+		// Task entity = em.find(Task.class, item.getId());
+		// em.remove(entity);
+		// em.getTransaction().commit();
+	}
+
 }

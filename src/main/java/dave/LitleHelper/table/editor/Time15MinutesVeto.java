@@ -1,4 +1,4 @@
-package dave.LitleHelper;
+package dave.LitleHelper.table.editor;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoField;

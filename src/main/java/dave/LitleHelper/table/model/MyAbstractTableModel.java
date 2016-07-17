@@ -3,9 +3,6 @@ package dave.LitleHelper.table.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.table.AbstractTableModel;
 
 import dave.LitleHelper.entities.AbstractEntity;
@@ -40,17 +37,12 @@ public abstract class MyAbstractTableModel<T extends AbstractEntity> extends Abs
 		fireTableDataChanged();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void removeRows(int[] rows) {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("littleHelper");
-		EntityManager em = factory.createEntityManager();
-
 		List<T> objectsToRemove = new ArrayList<>();
 		for (int row : rows) {
 			T item = data.get(row);
-			em.getTransaction().begin();
-			AbstractEntity entity = em.find(item.getClass(), item.getId());
-			em.remove(entity);
-			em.getTransaction().commit();
+			item.getDao().remove(item);
 			objectsToRemove.add(item);
 		}
 
@@ -63,8 +55,12 @@ public abstract class MyAbstractTableModel<T extends AbstractEntity> extends Abs
 		return data;
 	}
 
-	public AbstractEntity getEntity(int index) {
+	public AbstractEntity<?> getEntity(int index) {
 		return data.get(index);
+	}
+
+	public void refreshData() {
+		fireTableDataChanged();
 	}
 
 }

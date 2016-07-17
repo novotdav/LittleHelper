@@ -2,42 +2,36 @@ package dave.LitleHelper.table.model;
 
 import java.util.ArrayList;
 
-import dave.LitleHelper.entities.AffectedFile;
+import dave.LitleHelper.entities.Workspace;
 
-public class FileTableModel extends MyAbstractTableModel<AffectedFile> {
+public class WorkspaceTableModel extends MyAbstractTableModel<Workspace> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1222348987147189833L;
 
-	public FileTableModel() {
+	public WorkspaceTableModel() {
 		data = new ArrayList<>();
 	}
 
 	@Override
 	public String getColumnName(int column) {
-		if (column == 0) {
-			return "Nazev";
-		} else {
-			return "Cesta";
-		}
+		return "Nazev";
 	}
 
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 1;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		AffectedFile file = data.get(rowIndex);
+		Workspace workspace = data.get(rowIndex);
 
 		switch (columnIndex) {
 			case 0:
-				return file.getName();
-			case 1:
-				return file.getPath();
+				return workspace.getName();
 			default:
 				return null;
 		}

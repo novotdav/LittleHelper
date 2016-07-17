@@ -5,9 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import dave.LitleHelper.dao.AffectedFileDAO;
+
 @Entity
 @Table(name = "files")
-public class AffectedFile extends AbstractEntity {
+public class AffectedFile extends AbstractEntity<AffectedFile> {
 
 	@ManyToOne
 	private Task task;
@@ -54,5 +56,10 @@ public class AffectedFile extends AbstractEntity {
 	@Override
 	public String toString() {
 		return name + " - " + path;
+	}
+
+	@Override
+	public AffectedFileDAO getDao() {
+		return new AffectedFileDAO();
 	}
 }

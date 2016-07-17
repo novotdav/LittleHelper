@@ -21,8 +21,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import com.sun.mail.imap.protocol.FLAGS;
-
 import dave.LitleHelper.Settings;
 import dave.LitleHelper.Settings.PropertyValues;
 import dave.LitleHelper.exception.LittleException;
@@ -99,7 +97,7 @@ public class MailSender {
 
 			try {
 				folder.appendMessages(new Message[] { msg });
-				msg.setFlag(FLAGS.Flag.RECENT, true);
+				// msg.setFlag(FLAGS.Flag.RECENT, true);
 			} catch (Exception e) {
 				throw new LittleException(Err.MAIL_SAVE_FAILURE, e);
 			} finally {

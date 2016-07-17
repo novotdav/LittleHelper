@@ -11,6 +11,10 @@ public class LittleException extends RuntimeException {
 		super(error.getMessage(), exception);
 	}
 
+	public LittleException(Err error) {
+		super(error.getMessage());
+	}
+
 	public enum Err {
 
 		DEFAULT("Default exception."),
@@ -18,7 +22,10 @@ public class LittleException extends RuntimeException {
 		PROPERTY_SAVE("Error while saving settings properties."),
 		DB_LOAD("Error while loading database."),
 		MAIL_SEND_FAILURE("Error while sending e-mail."),
-		MAIL_SAVE_FAILURE("Error while saving e-mail. Email was sent but not saved.");
+		MAIL_SAVE_FAILURE("Error while saving e-mail. Email was sent but not saved."),
+		NULL_SELECTION("No items selected."),
+		NOT_SUPPORTED("This operation is not supported."),
+		MULTIPLE_SELECTION("Select only one item!");
 
 		private String message;
 

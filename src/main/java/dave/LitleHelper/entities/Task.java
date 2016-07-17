@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -17,12 +18,13 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Filter;
 
+import dave.LitleHelper.dao.TaskDAO;
 import dave.LitleHelper.enums.TaskState;
 import dave.LitleHelper.panel.TaskEditPane;
 
 @Entity
 @Table(name = "tasks")
-public class Task extends AbstractEntity {
+public class Task extends AbstractEntity<Task> {
 
 	@Transient
 	private TaskEditPane editPane;
@@ -46,7 +48,7 @@ public class Task extends AbstractEntity {
 	@Lob
 	private String notes;
 
-	@OneToMany(mappedBy = "task", cascade = { CascadeType.ALL })
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "task", cascade = { CascadeType.ALL })
 	// @Cascade({ CascadeType.MERGE })
 	private List<AffectedFile> files;
 
@@ -171,6 +173,11 @@ public class Task extends AbstractEntity {
 		} else if (!hp.equals(other.getHp()))
 			return false;
 		return true;
+	}
+
+	@Override
+	public TaskDAO getDao() {
+		return new TaskDAO();
 	}
 
 }

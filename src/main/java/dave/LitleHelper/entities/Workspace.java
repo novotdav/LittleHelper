@@ -6,11 +6,12 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
+import dave.LitleHelper.dao.WorkspaceDAO;
 import dave.LitleHelper.enums.WorkspaceType;
 
 @Entity
 @Table(name = "workspace")
-public class Workspace extends AbstractEntity {
+public class Workspace extends AbstractEntity<Workspace> {
 
 	@Column
 	private String name;
@@ -49,5 +50,10 @@ public class Workspace extends AbstractEntity {
 
 	public WorkspaceType getType() {
 		return type;
+	}
+
+	@Override
+	public WorkspaceDAO getDao() {
+		return new WorkspaceDAO();
 	}
 }

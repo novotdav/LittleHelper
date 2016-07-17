@@ -11,8 +11,6 @@ import com.github.lgooddatepicker.components.TimePicker;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
-import dave.LitleHelper.Time15MinutesVeto;
-
 public class TimeCellEditor extends AbstractCellEditor implements TableCellEditor {
 
 	private TimePicker picker;

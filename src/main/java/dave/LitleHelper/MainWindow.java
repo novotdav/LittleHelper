@@ -12,6 +12,7 @@ import javax.swing.JTabbedPane;
 import dave.LitleHelper.panel.OverViewPane;
 import dave.LitleHelper.panel.RecordPane;
 import dave.LitleHelper.panel.SettingsPane;
+import dave.LitleHelper.panel.WorkspacePane;
 
 public class MainWindow extends JFrame {
 	/**
@@ -49,6 +50,7 @@ public class MainWindow extends JFrame {
 
 		tabPane.add("Zaznam", new RecordPane());
 		tabPane.add("Prehled", new OverViewPane());
+		tabPane.add("Workspace", new WorkspacePane());
 		tabPane.addTab("Nastaveni", new SettingsPane());
 
 		add(tabPane);

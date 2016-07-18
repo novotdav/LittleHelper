@@ -1,13 +1,16 @@
-package dave.LitleHelper.tree;
+package dave.LitleHelper.tree.model;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.tree.DefaultTreeModel;
 
+import dave.LitleHelper.tree.node.AbstractNode;
+import dave.LitleHelper.tree.node.DateNode;
+import dave.LitleHelper.tree.node.RootNode;
 import dave.LitleHelper.utils.DateUtils;
 
-public class MyJTreeModel extends DefaultTreeModel {
+public class TaskTreeModel extends DefaultTreeModel {
 
 	/**
 	 * 
@@ -15,11 +18,11 @@ public class MyJTreeModel extends DefaultTreeModel {
 	private static final long serialVersionUID = 1312678134731289438L;
 	private AbstractNode root;
 
-	public MyJTreeModel() {
+	public TaskTreeModel() {
 		this(new RootNode());
 	}
 
-	private MyJTreeModel(AbstractNode root) {
+	private TaskTreeModel(AbstractNode root) {
 		super(root);
 		this.root = root;
 	}

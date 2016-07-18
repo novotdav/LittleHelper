@@ -7,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 
 import dave.LitleHelper.entities.AbstractEntity;
 
+@SuppressWarnings("rawtypes")
 public abstract class MyAbstractTableModel<T extends AbstractEntity> extends AbstractTableModel {
 
 	/**

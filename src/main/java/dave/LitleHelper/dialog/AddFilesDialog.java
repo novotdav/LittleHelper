@@ -19,6 +19,10 @@ import dave.LitleHelper.listener.ProcessFileInput;
 
 public class AddFilesDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3052353763568225254L;
 	private JTextArea filesTextArea;
 	private JPanel parent;
 	private Task task;

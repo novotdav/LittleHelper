@@ -13,6 +13,11 @@ import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
 public class TimeCellEditor extends AbstractCellEditor implements TableCellEditor {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7635368136211679535L;
+
 	private TimePicker picker;
 
 	private int minimumRowHeightInPixels;

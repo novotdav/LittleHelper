@@ -26,6 +26,10 @@ import dave.LitleHelper.table.model.TimeIntervalTableModel;
 
 public class TaskEditPane extends JScrollPane {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5634027815933545573L;
 	private Task task;
 	private LocalDate date;
 	private MyAbstractTableModel<TimeInterval> timesModel;
@@ -118,6 +122,14 @@ public class TaskEditPane extends JScrollPane {
 		task.setDescription(descriptionTextField.getText());
 		task.setNotes(notesTextArea.getText());
 		task.setFiles(filesModel.getData());
+	}
+
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
 	}
 
 }

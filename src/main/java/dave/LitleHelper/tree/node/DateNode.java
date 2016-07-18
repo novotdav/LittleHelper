@@ -1,4 +1,4 @@
-package dave.LitleHelper.tree;
+package dave.LitleHelper.tree.node;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

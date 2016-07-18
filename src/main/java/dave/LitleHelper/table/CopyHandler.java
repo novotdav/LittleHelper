@@ -21,7 +21,6 @@ public class CopyHandler extends TransferHandler {
 	 */
 	private static final long serialVersionUID = -236491440867535617L;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void exportToClipboard(JComponent comp, Clipboard clip, int action) throws IllegalStateException {
 
@@ -39,6 +38,7 @@ public class CopyHandler extends TransferHandler {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private class FilesTransferable implements Transferable {
 
 		private String data;

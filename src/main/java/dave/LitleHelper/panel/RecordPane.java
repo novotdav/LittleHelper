@@ -80,7 +80,10 @@ public class RecordPane extends JPanel {
 			// HP or Description was changed
 			boolean changed = !beforeUpdate.equals(afterUpdate);
 
-			taskDao.merge(t);
+			Task mergedTask = taskDao.merge(t);
+			taskSelector.removeItem(t);
+			taskSelector.addItem(mergedTask);
+			taskSelector.setSelectedItem(mergedTask);
 
 			// if persisted item is new task or task with changed HP or
 			// Description
@@ -90,10 +93,13 @@ public class RecordPane extends JPanel {
 					taskSelector.repaint();
 					CardLayout cl = (CardLayout) (centerPane.getLayout());
 					cl.removeLayoutComponent(t.getEditPane());
-					cl.addLayoutComponent(t.getEditPane(), t.toString());
-					cl.show(centerPane, t.toString());
+					centerPane.remove(t.getEditPane());
+					TaskEditPane newEditPane = mergedTask.createEditPane(dp.getDate());
+					centerPane.add(newEditPane, mergedTask.toString());
+					cl.show(centerPane, mergedTask.toString());
 					lastAddedTask = null;
 				} else {
+					// TODO change to exception
 					JOptionPane.showMessageDialog(null, "HP musi byt vyplneno!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}

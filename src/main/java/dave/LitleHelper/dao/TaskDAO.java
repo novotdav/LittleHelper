@@ -52,5 +52,4 @@ public class TaskDAO extends AbstractDAO<Task> {
 		// em.remove(entity);
 		// em.getTransaction().commit();
 	}
-
 }

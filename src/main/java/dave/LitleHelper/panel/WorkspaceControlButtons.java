@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import dave.LitleHelper.enums.WorkspaceType;
 import dave.LitleHelper.listener.AddExistingWorkspaceListener;
+import dave.LitleHelper.listener.AddNewWorkspaceListener;
 import dave.LitleHelper.listener.EditExistingWorkspaceListener;
 import dave.LitleHelper.table.WorkspaceTable;
 
@@ -38,6 +39,7 @@ public class WorkspaceControlButtons extends JPanel {
 		Dimension size = addExisting.getSize();
 
 		JButton addNew = new JButton("Novy");
+		addNew.addActionListener(new AddNewWorkspaceListener(table, type));
 		addNew.setPreferredSize(prefSize);
 		addNew.setSize(size);
 

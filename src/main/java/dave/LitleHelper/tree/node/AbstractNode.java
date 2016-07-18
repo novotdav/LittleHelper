@@ -1,4 +1,4 @@
-package dave.LitleHelper.tree;
+package dave.LitleHelper.tree.node;
 
 import java.util.Enumeration;
 import java.util.TreeSet;
@@ -66,6 +66,7 @@ public abstract class AbstractNode implements TreeNode, Comparable<AbstractNode>
 		return !(this instanceof TaskNode);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Enumeration children() {
 		return null;

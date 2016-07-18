@@ -19,10 +19,10 @@ import javax.swing.event.TreeExpansionListener;
 
 import dave.LitleHelper.dao.TaskDAO;
 import dave.LitleHelper.entities.Task;
-import dave.LitleHelper.tree.AbstractNode;
-import dave.LitleHelper.tree.DateNode;
-import dave.LitleHelper.tree.MyJTreeModel;
-import dave.LitleHelper.tree.TaskNode;
+import dave.LitleHelper.tree.model.TaskTreeModel;
+import dave.LitleHelper.tree.node.AbstractNode;
+import dave.LitleHelper.tree.node.DateNode;
+import dave.LitleHelper.tree.node.TaskNode;
 
 public class OverViewPane extends JPanel {
 
@@ -39,7 +39,7 @@ public class OverViewPane extends JPanel {
 	private void initComponents() {
 		setLayout(new BorderLayout());
 
-		MyJTreeModel model = new MyJTreeModel();
+		TaskTreeModel model = new TaskTreeModel();
 
 		JButton refresh_button = new JButton("Refresh");
 		refresh_button.addActionListener(event -> {

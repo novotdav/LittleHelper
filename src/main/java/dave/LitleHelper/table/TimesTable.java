@@ -17,6 +17,10 @@ import dave.LitleHelper.table.model.TimeIntervalTableModel;
 
 public class TimesTable extends JScrollPane {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2815363581502870390L;
 	private MyAbstractTableModel<TimeInterval> model;
 
 	public TimesTable(Task task, LocalDate date) {

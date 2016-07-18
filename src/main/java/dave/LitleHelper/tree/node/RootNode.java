@@ -1,4 +1,4 @@
-package dave.LitleHelper.tree;
+package dave.LitleHelper.tree.node;
 
 import java.util.TreeSet;
 

@@ -13,11 +13,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
 
+import dave.LitleHelper.LimitDocumentFilter;
 import dave.LitleHelper.dialog.AddFilesDialog;
 import dave.LitleHelper.entities.AffectedFile;
 import dave.LitleHelper.entities.Task;
 import dave.LitleHelper.entities.TimeInterval;
+import dave.LitleHelper.exception.ValidationException;
+import dave.LitleHelper.exception.ValidationException.ValErr;
 import dave.LitleHelper.listener.DeleteTableRow;
 import dave.LitleHelper.table.FilesTable;
 import dave.LitleHelper.table.editor.TimeCellEditor;
@@ -73,9 +77,13 @@ public class TaskEditPane extends JScrollPane {
 
 		JPanel hpPane = new JPanel();
 		hpTextField = new JTextField(10);
+		// limit text length
+		((AbstractDocument) hpTextField.getDocument()).setDocumentFilter(new LimitDocumentFilter(64));
 		hpTextField.setText(task.getHp() == null ? "" : task.getHp());
 
 		descriptionTextField = new JTextField(25);
+		// limit text length
+		((AbstractDocument) descriptionTextField.getDocument()).setDocumentFilter(new LimitDocumentFilter(256));
 		descriptionTextField.setText(task.getDescription() == null ? "" : task.getDescription());
 
 		hpPane.add(new JLabel("HP/WI"));
@@ -117,6 +125,14 @@ public class TaskEditPane extends JScrollPane {
 	}
 
 	public void update() {
+		if (hpTextField.getText().isEmpty()) {
+			throw new ValidationException(ValErr.EMPTY_HP);
+		}
+
+		if (descriptionTextField.getText().isEmpty()) {
+			throw new ValidationException(ValErr.EMPTY_DESC);
+		}
+
 		task.setTimes(timesModel.getData());
 		task.setHp(hpTextField.getText());
 		task.setDescription(descriptionTextField.getText());

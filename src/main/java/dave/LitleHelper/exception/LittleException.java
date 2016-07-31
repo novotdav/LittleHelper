@@ -25,7 +25,8 @@ public class LittleException extends RuntimeException {
 		MAIL_SAVE_FAILURE("Error while saving e-mail. Email was sent but not saved."),
 		NULL_SELECTION("No items selected."),
 		NOT_SUPPORTED("This operation is not supported."),
-		MULTIPLE_SELECTION("Select only one item!");
+		MULTIPLE_SELECTION("Select only one item!"),
+		ENTITY_SAVE("Error while saving entity.");
 
 		private String message;
 

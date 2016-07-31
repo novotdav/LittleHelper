@@ -3,14 +3,11 @@ package dave.LitleHelper.panel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.github.lgooddatepicker.components.DatePicker;
@@ -43,23 +40,18 @@ public class RecordPane extends JPanel {
 		top.add(dp);
 
 		taskSelector = new JComboBox<>();
-
-		taskSelector.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				CardLayout cl = (CardLayout) (centerPane.getLayout());
-				cl.show(centerPane, e.getItem().toString());
-			}
+		taskSelector.addItemListener(e -> {
+			CardLayout cl = (CardLayout) (centerPane.getLayout());
+			cl.show(centerPane, Long.toString(((Task) e.getItem()).getId()));
 		});
 		top.add(taskSelector);
 
 		JButton novyUkolButton = new JButton("Novy ukol");
 		novyUkolButton.addActionListener(e -> {
-			Task t = new Task();
+			Task t = taskDao.createTask();
 			TaskEditPane tep = new TaskEditPane(t, dp.getDate());
 
-			centerPane.add(tep, t.toString());
+			centerPane.add(tep, Long.toString(t.getId()));
 			taskSelector.addItem(t);
 			taskSelector.setSelectedItem(t);
 
@@ -72,37 +64,14 @@ public class RecordPane extends JPanel {
 
 		JButton saveButton = new JButton("Save");
 		saveButton.addActionListener(e -> {
-			Task t = ((Task) taskSelector.getSelectedItem());
-			String beforeUpdate = t.toString();
-			t.update();
-			String afterUpdate = t.toString();
+			Task task = ((Task) taskSelector.getSelectedItem());
+			task.update();
 
-			// HP or Description was changed
-			boolean changed = !beforeUpdate.equals(afterUpdate);
-
-			Task mergedTask = taskDao.merge(t);
-			taskSelector.removeItem(t);
+			Task mergedTask = taskDao.merge(task);
+			taskSelector.removeItem(task);
 			taskSelector.addItem(mergedTask);
 			taskSelector.setSelectedItem(mergedTask);
-
-			// if persisted item is new task or task with changed HP or
-			// Description
-			if ((lastAddedTask != null && lastAddedTask.equals(t)) || changed) {
-				if (t.getHp() != null && !t.getHp().isEmpty()) {
-					novyUkolButton.setEnabled(true);
-					taskSelector.repaint();
-					CardLayout cl = (CardLayout) (centerPane.getLayout());
-					cl.removeLayoutComponent(t.getEditPane());
-					centerPane.remove(t.getEditPane());
-					TaskEditPane newEditPane = mergedTask.createEditPane(dp.getDate());
-					centerPane.add(newEditPane, mergedTask.toString());
-					cl.show(centerPane, mergedTask.toString());
-					lastAddedTask = null;
-				} else {
-					// TODO change to exception
-					JOptionPane.showMessageDialog(null, "HP musi byt vyplneno!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
+			// TODO create sorted model for combobox?
 		});
 		buttons.add(saveButton);
 
@@ -116,10 +85,6 @@ public class RecordPane extends JPanel {
 			loadTasks(dp.getDate());
 		});
 
-		// Task t = em.find(Task.class, 2101L);
-		// taskSelector.addItem(t);
-		// centerPane.add(t.createEditPane(dp.getDate()), t.toString());
-
 		add(centerPane, BorderLayout.CENTER);
 	}
 
@@ -130,7 +95,7 @@ public class RecordPane extends JPanel {
 
 		list.forEach(task -> {
 			taskSelector.addItem(task);
-			centerPane.add(task.createEditPane(date), task.toString());
+			centerPane.add(task.createEditPane(date), Long.toString(task.getId()));
 		});
 	}
 }

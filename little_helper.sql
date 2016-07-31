@@ -7,7 +7,7 @@ CREATE TABLE files (
 
 CREATE TABLE tasks (
   id int not null PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-  hp varchar(16) unique,
+  hp varchar(64),
   description varchar(256),
   workspace_id int,
   notes clob,
@@ -26,9 +26,12 @@ CREATE TABLE time_interval (
 CREATE TABLE workspace (
   id int not null PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
   name varchar(32),
-  path varchar(256),
+  path varchar(512),
   type varchar(16)
 );
+
+ALTER TABLE tasks 
+  ADD CONSTRAINT unique_index UNIQUE (hp, description);
 
 ALTER TABLE files
   ADD CONSTRAINT files_ibfk_1 FOREIGN KEY (task_id) REFERENCES tasks (id);

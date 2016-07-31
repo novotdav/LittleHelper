@@ -51,7 +51,7 @@ public class OverViewPane extends JPanel {
 		add(topPanel, BorderLayout.NORTH);
 
 		final JTree jt = new JTree(model);
-		// TODO consider renderer
+		// TODO consider renderer for custom icons, ...
 		// jt.setCellRenderer(new MyTreeCellRenderer());
 		jt.setRootVisible(true);
 		jt.setRowHeight(0);
@@ -122,7 +122,7 @@ public class OverViewPane extends JPanel {
 						LocalDate date = ((DateNode) node.getParent()).getDate();
 						String dateString = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 						Task task = ((TaskNode) node).getTask();
-						// TODO create viewPane instead of editPane
+						// TODO create viewPane instead of editPane?
 						TaskEditPane editPane = task.createEditPane(date);
 						JOptionPane.showMessageDialog(null, editPane, dateString + ": " + task,
 								JOptionPane.PLAIN_MESSAGE);

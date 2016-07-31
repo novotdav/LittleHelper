@@ -17,9 +17,9 @@ public class FilesTableContextMenu extends MouseAdapter {
 	public FilesTableContextMenu(JTable table, Task task) {
 		menu = new JPopupMenu();
 
-		JMenuItem interationMailItem = new JMenuItem("Integracni email");
-		interationMailItem.addActionListener(new IntegrationMailController(table, task));
-		menu.add(interationMailItem);
+		JMenuItem integrationMailItem = new JMenuItem("Integracni email");
+		integrationMailItem.addActionListener(new IntegrationMailController(table, task));
+		menu.add(integrationMailItem);
 	}
 
 	@Override

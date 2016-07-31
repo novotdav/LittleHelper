@@ -154,7 +154,7 @@ public class Task extends AbstractEntity<Task> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((hp == null) ? 0 : hp.hashCode());
+		result = (int) (prime * result + id);
 		return result;
 	}
 
@@ -167,12 +167,7 @@ public class Task extends AbstractEntity<Task> {
 		if (getClass() != obj.getClass())
 			return false;
 		Task other = (Task) obj;
-		if (hp == null) {
-			if (other.getHp() != null)
-				return false;
-		} else if (!hp.equals(other.getHp()))
-			return false;
-		return true;
+		return id == other.getId();
 	}
 
 	@Override

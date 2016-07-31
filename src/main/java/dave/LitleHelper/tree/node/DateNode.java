@@ -7,7 +7,6 @@ import java.util.TreeSet;
 public class DateNode extends AbstractNode {
 
 	private LocalDate date;
-
 	private boolean dayNode;
 
 	public DateNode(LocalDate day, DateTimeFormatter formatter) {

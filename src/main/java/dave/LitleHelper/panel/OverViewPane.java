@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -74,7 +75,7 @@ public class OverViewPane extends JPanel {
 							LocalDate date = dn.getDate();
 							List<Integer> indices = new ArrayList<>();
 
-							List<Task> tasks = dao.findByDate(date);
+							Set<Task> tasks = dao.findByDate(date);
 							int lastIndex = 0;
 
 							dn.removeAllChildren();

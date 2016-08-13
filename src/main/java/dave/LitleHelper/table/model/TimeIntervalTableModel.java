@@ -79,6 +79,7 @@ public class TimeIntervalTableModel extends MyAbstractTableModel<TimeInterval> {
 		switch (columnIndex) {
 			case 0:
 				time.setFrom((LocalTime) aValue);
+				break;
 			case 1:
 				time.setTo((LocalTime) aValue);
 		}

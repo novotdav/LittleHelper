@@ -28,7 +28,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
-			FileHandler fh = new FileHandler("error_log%u.log", 5 * 1024 * 1024, 3, true);
+			FileHandler fh = new FileHandler("error_log.log", 5 * 1024 * 1024, 1, true);
 			fh.setFormatter(new SimpleFormatter());
 			LOGGER.addHandler(fh);
 		} catch (SecurityException | IOException e) {

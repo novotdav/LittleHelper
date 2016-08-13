@@ -1,8 +1,10 @@
 package dave.LitleHelper.dao;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
@@ -20,23 +22,24 @@ public class TaskDAO extends AbstractDAO<Task> {
 		return em.createQuery("select t from Task t ", Task.class).getResultList();
 	}
 
-	public List<Task> findByDate(LocalDate date) {
+	public Set<Task> findByDate(LocalDate date) {
 		Session session = em.unwrap(Session.class);
 
 		// to remove previous results from cache
 		session.clear();
-		return em.createQuery("select t from Task t JOIN FETCH t.times i where i.date = :date", Task.class)
-				.setParameter("date", date).getResultList();
+		return new HashSet<>(
+				em.createQuery("select t from Task t JOIN FETCH t.times i where i.date = :date", Task.class)
+						.setParameter("date", date).getResultList());
 	}
 
-	public List<Task> findAllByDate(LocalDate date) {
+	public Set<Task> findAllByDate(LocalDate date) {
 		Session session = em.unwrap(Session.class);
 
 		// to remove previous results from cache
 		session.clear();
 		session.enableFilter("date").setParameter("date", date);
 
-		List<Task> tasks = new ArrayList<>();
+		Set<Task> tasks = new LinkedHashSet<>();
 		tasks.addAll(em.createQuery("select t from Task t LEFT JOIN FETCH t.times i", Task.class).getResultList());
 		session.disableFilter("date");
 

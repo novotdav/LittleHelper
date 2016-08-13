@@ -174,5 +174,4 @@ public class Task extends AbstractEntity<Task> {
 	public TaskDAO getDao() {
 		return new TaskDAO();
 	}
-
 }

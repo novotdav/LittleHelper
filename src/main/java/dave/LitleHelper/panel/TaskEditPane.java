@@ -133,7 +133,10 @@ public class TaskEditPane extends JScrollPane {
 			throw new ValidationException(ValErr.EMPTY_DESC);
 		}
 
-		task.setTimes(timesModel.getData());
+		List<TimeInterval> taskTimes = task.getTimes();
+		taskTimes.clear();
+		taskTimes.addAll(timesModel.getData());
+
 		task.setHp(hpTextField.getText());
 		task.setDescription(descriptionTextField.getText());
 		task.setNotes(notesTextArea.getText());

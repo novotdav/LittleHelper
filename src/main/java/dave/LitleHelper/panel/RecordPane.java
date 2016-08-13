@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,7 +21,6 @@ public class RecordPane extends JPanel {
 	 */
 	private static final long serialVersionUID = -2155308492206387679L;
 	private JPanel centerPane;
-	private Task lastAddedTask;
 	TaskDAO taskDao;
 	JComboBox<Task> taskSelector;
 
@@ -46,19 +45,16 @@ public class RecordPane extends JPanel {
 		});
 		top.add(taskSelector);
 
-		JButton novyUkolButton = new JButton("Novy ukol");
-		novyUkolButton.addActionListener(e -> {
+		JButton newTaskButton = new JButton("Novy ukol");
+		newTaskButton.addActionListener(e -> {
 			Task t = taskDao.createTask();
 			TaskEditPane tep = new TaskEditPane(t, dp.getDate());
 
 			centerPane.add(tep, Long.toString(t.getId()));
 			taskSelector.addItem(t);
 			taskSelector.setSelectedItem(t);
-
-			lastAddedTask = t;
-			novyUkolButton.setEnabled(false);
 		});
-		top.add(novyUkolButton);
+		top.add(newTaskButton);
 
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
@@ -89,11 +85,11 @@ public class RecordPane extends JPanel {
 	}
 
 	private void loadTasks(LocalDate date) {
-		List<Task> list = taskDao.findAllByDate(date);
+		Set<Task> tasks = taskDao.findAllByDate(date);
 		taskSelector.removeAllItems();
 		centerPane.removeAll();
 
-		list.forEach(task -> {
+		tasks.forEach(task -> {
 			taskSelector.addItem(task);
 			centerPane.add(task.createEditPane(date), Long.toString(task.getId()));
 		});

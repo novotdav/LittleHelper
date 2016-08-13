@@ -42,7 +42,7 @@ public class TaskNode extends AbstractNode {
 
 	@Override
 	public int compareTo(AbstractNode o) {
-		return o.getValue().compareTo(value);
+		return value.compareTo(o.getValue());
 	}
 
 }

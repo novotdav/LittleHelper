@@ -10,6 +10,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,7 +36,7 @@ public class SettingsPane extends JPanel {
 	private int verticalIndex = 0;
 	private GridBagConstraints c;
 	private Settings settings;
-	private Map<PropertyValues, JTextComponent> entries;
+	private Map<PropertyValues, JComponent> entries;
 	private JPanel center, buttons;
 
 	public SettingsPane() {
@@ -64,9 +65,11 @@ public class SettingsPane extends JPanel {
 		placeComponent(PropertyValues.EMAIL_PASS, ComponentType.PASSWORD);
 		placeComponent(PropertyValues.EMAIL_TO);
 		placeComponent(PropertyValues.EMAIL_SIGNATURE, ComponentType.AREA);
-		placeSeparator();
 
-		placeComponent("Dalsi");
+		placeComponent("Workspaces");
+		placeComponent(PropertyValues.WRK_LEGACY_PATH, ComponentType.FILE_PATH);
+		placeComponent(PropertyValues.WRK_CMD_PATH, ComponentType.FILE_PATH);
+		placeComponent(PropertyValues.WRK_OTHER_PATH, ComponentType.FILE_PATH);
 
 		JButton save = new JButton("Ulozit");
 		buttons.add(save);
@@ -75,8 +78,10 @@ public class SettingsPane extends JPanel {
 				String value = "";
 				if (component instanceof JPasswordField) {
 					value = new String(((JPasswordField) component).getPassword());
+				} else if (component instanceof FileChooser) {
+					value = ((FileChooser) component).getText();
 				} else {
-					value = component.getText();
+					value = ((JTextComponent) component).getText();
 				}
 
 				settings.setValue(key, value);
@@ -96,24 +101,27 @@ public class SettingsPane extends JPanel {
 	}
 
 	private void placeComponent(PropertyValues key, ComponentType compType) {
-		JTextComponent comp = new JTextField(TEXT_SIZE);
+		JComponent comp = new JTextField(TEXT_SIZE);
+		String text = settings.getValue(key);
 
 		if (ComponentType.AREA.equals(compType)) {
-			comp = new JTextArea(ROWS_COUNT, TEXT_SIZE);
+			comp = new JTextArea(text, ROWS_COUNT, TEXT_SIZE);
 		} else if (ComponentType.PASSWORD.equals(compType)) {
-			comp = new JPasswordField(TEXT_SIZE);
+			comp = new JPasswordField(text, TEXT_SIZE);
+		} else if (ComponentType.FILE_PATH.equals(compType)) {
+			comp = new FileChooser(text, TEXT_SIZE);
 		}
 
-		comp.setText(settings.getValue(key));
 		placeComponent(new JLabel(key.getLabel()), comp);
 		entries.put(key, comp);
 	}
 
 	private void placeComponent(String headLine) {
+		placeSeparator();
 		placeComponent(new JLabel(headLine), null);
 	}
 
-	private void placeComponent(Component label, JTextComponent comp) {
+	private void placeComponent(Component label, JComponent comp) {
 		if (comp == null) {
 			c.gridwidth = 2;
 			c.gridy = verticalIndex++;
@@ -145,7 +153,8 @@ public class SettingsPane extends JPanel {
 	private enum ComponentType {
 		FIELD,
 		AREA,
-		PASSWORD;
+		PASSWORD,
+		FILE_PATH;
 	}
 
 }

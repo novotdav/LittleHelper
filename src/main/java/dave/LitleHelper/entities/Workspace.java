@@ -1,26 +1,21 @@
 package dave.LitleHelper.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import java.io.Serializable;
 
 import dave.LitleHelper.dao.WorkspaceDAO;
 import dave.LitleHelper.enums.WorkspaceType;
 
-@Entity
-@Table(name = "workspace")
-public class Workspace extends AbstractEntity<Workspace> {
+public class Workspace extends AbstractEntity<Workspace> implements Serializable {
 
-	@Column
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2402568445137368021L;
+
 	private String name;
 
-	@Column
 	private String path;
 
-	@Enumerated(EnumType.STRING)
-	@Column
 	private WorkspaceType type;
 
 	public Workspace() {
@@ -54,6 +49,36 @@ public class Workspace extends AbstractEntity<Workspace> {
 
 	@Override
 	public WorkspaceDAO getDao() {
-		return new WorkspaceDAO();
+		return WorkspaceDAO.getInstance();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Workspace other = (Workspace) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
+	@Override
+	public int compareTo(Workspace o) {
+		return name.compareTo(o.getName());
 	}
 }

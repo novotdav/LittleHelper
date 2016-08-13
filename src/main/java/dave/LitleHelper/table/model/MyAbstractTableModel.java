@@ -1,6 +1,7 @@
 package dave.LitleHelper.table.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -27,12 +28,12 @@ public abstract class MyAbstractTableModel<T extends AbstractEntity> extends Abs
 	@Override
 	abstract public Object getValueAt(int rowIndex, int columnIndex);
 
-	public void setData(List<T> newData) {
+	public void setData(Collection<T> newData) {
 		data.clear();
 		addData(newData);
 	}
 
-	public void addData(List<T> newData) {
+	public void addData(Collection<T> newData) {
 		data.addAll(newData);
 
 		fireTableDataChanged();

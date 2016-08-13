@@ -14,6 +14,7 @@ public class Settings {
 	private static Settings instance;
 	private Properties prop;
 	private static final File SOURCE_FILE = new File("settings.conf");
+	private static final String NO_LABEL = "no_label";
 
 	private Settings() {
 		init();
@@ -32,6 +33,11 @@ public class Settings {
 		try {
 			if (SOURCE_FILE.exists()) {
 				prop.load(new FileInputStream(SOURCE_FILE));
+
+				if (getValue(PropertyValues.WRK_DB_FILE_NAME) == null
+						|| getValue(PropertyValues.WRK_DB_FILE_NAME).isEmpty()) {
+					prop.put(PropertyValues.WRK_DB_FILE_NAME, "workspaces.data");
+				}
 			}
 		} catch (IOException e) {
 			throw new LittleException(Err.PROPERTY_LOAD, e);
@@ -63,10 +69,18 @@ public class Settings {
 		EMAIL_LOGIN("emailLogin", "Login"),
 		EMAIL_PASS("emailPass", "Heslo"),
 		EMAIL_TO("sendTo", "Adresati"),
-		EMAIL_SIGNATURE("emailSign", "Podpis");
+		EMAIL_SIGNATURE("emailSign", "Podpis"),
+		WRK_DB_FILE_NAME("wrkDbFileName"),
+		WRK_LEGACY_PATH("legacyPath", "Legacy - umisteni"),
+		WRK_CMD_PATH("cmdPath", "CMD - umisteni"),
+		WRK_OTHER_PATH("otherPath", "Ostatni - umisteni");
 
 		private String key;
 		private String label;
+
+		private PropertyValues(String key) {
+			this(key, NO_LABEL);
+		}
 
 		private PropertyValues(String key, String label) {
 			this.key = key;

@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
+import dave.LitleHelper.dao.WorkspaceDAO;
 import dave.LitleHelper.panel.OverViewPane;
 import dave.LitleHelper.panel.RecordPane;
 import dave.LitleHelper.panel.SettingsPane;
@@ -34,6 +35,8 @@ public class MainWindow extends JFrame {
 				} catch (SQLException e1) {
 					// sql error is expected -> do nothing
 				}
+
+				WorkspaceDAO.getInstance().saveData();
 			}
 
 		});

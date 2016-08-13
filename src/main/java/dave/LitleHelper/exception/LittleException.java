@@ -21,12 +21,15 @@ public class LittleException extends RuntimeException {
 		PROPERTY_LOAD("Error while loading settings properties."),
 		PROPERTY_SAVE("Error while saving settings properties."),
 		DB_LOAD("Error while loading database."),
+		DB_WRITE("Error while saving data."),
 		MAIL_SEND_FAILURE("Error while sending e-mail."),
 		MAIL_SAVE_FAILURE("Error while saving e-mail. Email was sent but not saved."),
 		NULL_SELECTION("No items selected."),
 		NOT_SUPPORTED("This operation is not supported."),
 		MULTIPLE_SELECTION("Select only one item!"),
-		ENTITY_SAVE("Error while saving entity.");
+		ENTITY_SAVE("Error while saving entity."),
+		CONN_TIME_OUT("Connection timed out."),
+		WRONG_URL("URL is not valid.");
 
 		private String message;
 

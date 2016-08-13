@@ -3,6 +3,7 @@ package dave.LitleHelper.table.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import dave.LitleHelper.entities.EmptyTimeInterval;
@@ -26,7 +27,7 @@ public class TimeIntervalTableModel extends MyAbstractTableModel<TimeInterval> {
 	}
 
 	@Override
-	public void setData(List<TimeInterval> newData) {
+	public void setData(Collection<TimeInterval> newData) {
 		super.setData(newData);
 		data.add(new EmptyTimeInterval());
 	}

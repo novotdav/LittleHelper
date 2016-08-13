@@ -31,7 +31,7 @@ public class WorkspaceTable extends JScrollPane {
 	public WorkspaceTable(WorkspaceType type) {
 		super();
 		model = new WorkspaceTableModel();
-		dao = new WorkspaceDAO();
+		dao = WorkspaceDAO.getInstance();
 
 		model.setData(dao.findByType(type));
 		// model.addData(Arrays.asList(new Workspace("8-19", "C://neco",

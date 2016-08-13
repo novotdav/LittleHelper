@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import dave.LitleHelper.dao.AbstractDAO;
 
 @MappedSuperclass
-public abstract class AbstractEntity<T> {
+public abstract class AbstractEntity<T> implements Comparable<T> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

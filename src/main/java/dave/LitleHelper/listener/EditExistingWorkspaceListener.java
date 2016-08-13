@@ -26,7 +26,7 @@ public class EditExistingWorkspaceListener extends MouseAdapter implements Actio
 	public EditExistingWorkspaceListener(WorkspaceTable table) {
 		this.table = table;
 		model = table.getModel();
-		dao = new WorkspaceDAO();
+		dao = WorkspaceDAO.getInstance();
 	}
 
 	@Override

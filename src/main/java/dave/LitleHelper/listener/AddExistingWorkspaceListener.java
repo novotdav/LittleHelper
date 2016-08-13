@@ -22,7 +22,7 @@ public class AddExistingWorkspaceListener implements ActionListener {
 	public AddExistingWorkspaceListener(WorkspaceTable table, WorkspaceType type) {
 		this.type = type;
 		model = table.getModel();
-		dao = new WorkspaceDAO();
+		dao = WorkspaceDAO.getInstance();
 	}
 
 	@Override

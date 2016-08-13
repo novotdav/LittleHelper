@@ -62,4 +62,9 @@ public class AffectedFile extends AbstractEntity<AffectedFile> {
 	public AffectedFileDAO getDao() {
 		return new AffectedFileDAO();
 	}
+
+	@Override
+	public int compareTo(AffectedFile o) {
+		return name.compareTo(o.getName());
+	}
 }

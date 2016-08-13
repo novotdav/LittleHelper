@@ -114,4 +114,15 @@ public class TimeInterval extends AbstractEntity<TimeInterval> {
 	public TimeIntervalDAO getDao() {
 		return new TimeIntervalDAO();
 	}
+
+	@Override
+	public int compareTo(TimeInterval o) {
+		int firstCompare = date.compareTo(o.getDate());
+
+		if (firstCompare == 0) {
+			return from.compareTo(o.getFrom());
+		}
+
+		return firstCompare;
+	}
 }

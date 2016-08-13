@@ -18,7 +18,11 @@ public class ValidationException extends RuntimeException {
 
 		EMPTY_HP("Empty HP not allowed!"),
 		EMPTY_DESC("Empty description not allowed!"),
-		TASK_DUPLICITY("Task with this combination of HP and Description allready exists.");
+		TASK_DUPLICITY("Task with this combination of HP and Description allready exists."),
+		WRK_NULL_TYPE("Workspace has no type set."),
+		WRK_DUPLICTY("This workspace allready exists."),
+		WRONG_PATH("Cesta k souboru/slozce neexistuje."),
+		BUILD_WRONG_NODE_SELECTED("Please select node with ues build version.");
 
 		private String message;
 

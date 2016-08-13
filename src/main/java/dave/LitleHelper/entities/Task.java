@@ -11,7 +11,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -39,10 +38,6 @@ public class Task extends AbstractEntity<Task> {
 
 	@Column(name = "description")
 	private String description;
-
-	@ManyToOne
-	// @Column(name = "workspace")
-	private Workspace workspace;
 
 	@Column
 	@Lob
@@ -98,14 +93,6 @@ public class Task extends AbstractEntity<Task> {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Workspace getWorkspace() {
-		return workspace;
-	}
-
-	public void setWorkspace(Workspace workspace) {
-		this.workspace = workspace;
 	}
 
 	public String getNotes() {
@@ -173,5 +160,10 @@ public class Task extends AbstractEntity<Task> {
 	@Override
 	public TaskDAO getDao() {
 		return new TaskDAO();
+	}
+
+	@Override
+	public int compareTo(Task o) {
+		return hp.compareTo(o.getHp());
 	}
 }

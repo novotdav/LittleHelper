@@ -101,7 +101,7 @@ public class SettingsPane extends JPanel {
 	}
 
 	private void placeComponent(PropertyValues key, ComponentType compType) {
-		JComponent comp = new JTextField(TEXT_SIZE);
+		JComponent comp = null;
 		String text = settings.getValue(key);
 
 		if (ComponentType.AREA.equals(compType)) {
@@ -110,6 +110,10 @@ public class SettingsPane extends JPanel {
 			comp = new JPasswordField(text, TEXT_SIZE);
 		} else if (ComponentType.FILE_PATH.equals(compType)) {
 			comp = new FileChooser(text, TEXT_SIZE);
+		} else if (ComponentType.FIELD.equals(compType)) {
+			comp = new JTextField(text, TEXT_SIZE);
+		} else {
+			// TODO throw invalid component type exception
 		}
 
 		placeComponent(new JLabel(key.getLabel()), comp);

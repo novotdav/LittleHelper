@@ -79,9 +79,9 @@ public class SettingsPane extends JPanel {
 				if (component instanceof JPasswordField) {
 					value = new String(((JPasswordField) component).getPassword());
 				} else if (component instanceof FileChooser) {
-					value = ((FileChooser) component).getText();
+					value = ((FileChooser) component).getText().trim();
 				} else {
-					value = ((JTextComponent) component).getText();
+					value = ((JTextComponent) component).getText().trim();
 				}
 
 				settings.setValue(key, value);
